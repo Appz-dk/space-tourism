@@ -18,3 +18,5 @@
 # Folder where I kept the starter code
 /ignore-folder
 /node_modules
+.parcel-cache
+/.parcel-cache
