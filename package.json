@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "parcel ./src/index.html",
-    "build": "parcel build ./src/*.html --public-url /space-tourism/ --dist-dir ./docs"
+    "build": "parcel build ./src/*.html --public-url /space-tourism/index.html --dist-dir ./docs"
   },
   "keywords": [],
   "author": "",
