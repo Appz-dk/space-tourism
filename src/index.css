@@ -1,0 +1,1007 @@
+/* ------------------------------------------------------- */
+/* Custom Properties                                       */
+/* ------------------------------------------------------- */
+
+/* Changed the @media from 45em to 53em for large screens */
+
+:root {
+  /* Colors */
+  --clr-primary: 11 13 23;
+  --clr-light: 208 214 249;
+  --clr-white: 255 255 255;
+
+  /* Font-sizes (fs-400 = normal) (pixels / 16 to get rem value)*/
+  /* Clamp scales the fontsize depending on the values given (Here we have min, middle and max)*/
+  /* 8vw + 1rem because viewpoint units wont react when zooming in or out, which would cause the text not to grow */
+  --fs-900: clamp(5rem, 9vw + 1rem, 9.375rem);
+  --fs-800: 3.5rem;
+  --fs-700: 2rem;
+  /* 1.75 */
+  --fs-600: 1.75rem;
+  /* 1.5 */
+  --fs-500: 1rem;
+  /* 1 */
+  --fs-400: 0.9375rem;
+  /* Font sizes not 100% correct. E.g. nav font at mobile is 1 px too small */
+  /* .9375 */
+  --fs-300: 1rem;
+  --fs-200: 0.875rem;
+
+  /* Font-families */
+  --ff-serif: "Bellefair", serif;
+  --ff-sans-cond: "Barlow Condensed", sans-serif;
+  --ff-sans-normal: "Barlow", sans-serif;
+}
+
+/* Font-size changes for medium screens */
+@media (min-width: 35em) {
+  :root {
+    --fs-800: 5rem;
+    --fs-700: 2.5rem;
+    --fs-500: 1.25rem;
+    --fs-400: 1.125rem;
+    --fs-300: 1rem;
+  }
+}
+
+/* Font-size changes for big screens */
+@media (min-width: 53em) {
+  :root {
+    --fs-800: 6.25rem;
+    --fs-700: 3.5rem;
+    --fs-500: 1.75rem;
+    --fs-600: 2rem;
+  }
+}
+
+/* ------------------------------------------------------- */
+/* CSS Reset                                               */
+/* ------------------------------------------------------- */
+
+/* For CSS reset inspiration */
+/* https://piccalil.li/blog/a-modern-css-reset/ */
+
+/* Box sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Margins */
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+picture,
+figure {
+  margin: 0;
+}
+
+/* Font-weight */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  font-weight: 400;
+}
+
+/* Body */
+
+body {
+  font-family: var(--ff-sans-normal);
+  font-size: var(--fs-400);
+  color: rgb(var(--clr-white));
+  line-height: 1.5;
+  min-height: 100vh;
+  background-color: rgb(var(--clr-primary));
+
+  /* This devides the page in min-content for the 'header' and rest of the space for the 'main' */
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  overflow-x: hidden;
+}
+
+/* Images, easier to work with */
+
+img:not([hidden]),
+picture:not([hidden]) {
+  display: block;
+  max-width: 100%;
+}
+
+/* Form elements, easier to work with */
+
+input,
+button,
+section,
+textarea {
+  font: inherit;
+}
+
+/* Animation - off if preferred by user */
+
+@media (prefers-reduced-motion) {
+  /* styles to apply if the user's settings are set to reduced motion */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: smooth !important;
+  }
+}
+
+/* ------------------------------------------------------- */
+/* Utility Classes                                         */
+/* ------------------------------------------------------- */
+
+/* General */
+
+.d-block {
+  display: block;
+}
+
+.flex {
+  display: flex;
+  gap: var(--gap, 1rem);
+}
+
+.flex-grow {
+  flex-grow: 1;
+}
+
+/* '* + *' takes all but the first element */
+.flow > * + * {
+  margin-top: var(--flow-space, 1rem);
+  /* border: 1px solid red; */
+}
+
+.flow--space-normal {
+  --flow-space: 1rem;
+}
+
+.flow--space-small {
+  --flow-space: 0.5rem;
+}
+
+.grid {
+  display: grid;
+  gap: var(--gap, 1rem);
+}
+
+.container {
+  margin-inline: auto;
+  padding-inline: 2em;
+  max-width: 80rem;
+}
+
+/* For Screen readers only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* For Accessibility */
+.skip-to-content {
+  position: absolute;
+  z-index: 9999;
+  text-decoration: none;
+  background-color: rgb(var(--clr-white));
+  color: rgb(var(--clr-primary));
+  padding: 0.25em 0.5em;
+  transform: translateY(-100%);
+  transition: transform 300ms ease-in-out;
+  margin-left: 0.5em;
+}
+
+.skip-to-content:focus {
+  transform: translateY(30%);
+}
+
+/* Colors */
+
+.bg-dark {
+  background-color: rgb(var(--clr-primary));
+}
+.bg-light {
+  background-color: rgb(var(--clr-light));
+}
+.bg-white {
+  background-color: rgb(var(--clr-white));
+}
+.bg-transparent {
+  background-color: transparent;
+}
+
+.text-dark {
+  color: rgb(var(--clr-primary));
+}
+.text-light {
+  color: rgb(var(--clr-light));
+}
+.text-white {
+  color: rgb(var(--clr-white));
+}
+
+/* Typography */
+
+.ff-serif {
+  font-family: var(--ff-serif);
+}
+.ff-sans-cond {
+  font-family: var(--ff-sans-cond);
+}
+.ff-sans-normal {
+  font-family: var(--ff-sans-normal);
+}
+
+.letter-spacing-1 {
+  letter-spacing: 4.75px;
+}
+.letter-spacing-2 {
+  letter-spacing: 2.7px;
+}
+.letter-spacing-3 {
+  letter-spacing: 2.35px;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.fs-900 {
+  font-size: var(--fs-900);
+}
+.fs-800 {
+  font-size: var(--fs-800);
+}
+.fs-700 {
+  font-size: var(--fs-700);
+}
+.fs-600 {
+  font-size: var(--fs-600);
+}
+.fs-500 {
+  font-size: var(--fs-500);
+}
+.fs-400 {
+  font-size: var(--fs-400);
+}
+.fs-300 {
+  font-size: var(--fs-300);
+}
+.fs-200 {
+  font-size: var(--fs-200);
+}
+
+.fs-900,
+.fs-800,
+.fs-700,
+.fs-600 {
+  line-height: 1.1;
+}
+
+/* Numbered Titles */
+
+.numbered-title {
+  text-transform: uppercase;
+  font-family: var(--ff-sans-cond);
+  font-size: var(--fs-500);
+  letter-spacing: 4.72px;
+}
+
+.numbered-title > span {
+  color: rgb(var(--clr-white) / 0.25);
+  font-weight: 700;
+  margin-right: 0.5em;
+}
+
+/* ------------------------------------------------------- */
+/* Components                                              */
+/* ------------------------------------------------------- */
+
+/* Large Button  ----------------------------------------- */
+
+.large-button {
+  font-size: 2rem;
+  position: relative;
+  /* Inline to prevent it from growing (aka displaying as block) */
+  display: inline-grid;
+  /* Shorthand for align + justify in one*/
+  place-items: center;
+
+  border-radius: 100%;
+  text-decoration: none;
+
+  /* padding + aspect ratio "acts as height and width" */
+  padding: 0 2em;
+  aspect-ratio: 1;
+
+  /* Used to force new stacking context */
+  z-index: 1;
+}
+
+@media (min-width: 35em) {
+  .large-button {
+    font-size: 1.9rem;
+  }
+}
+
+/*
+  Placing a element ::after the .large-button. 
+  The styles places the element infront of the .large-button's background
+  but behind the text content of the .large-button.
+  remove z-index: 1 on the .large-button to move it all the way behind
+*/
+.large-button::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  background-color: rgb(var(--clr-white) / 0.15);
+
+  /* Matches the size and placement of the .large-button with the position relative */
+  width: 100%;
+  height: 100%;
+
+  /* For transition of opacity and scale on hover */
+  opacity: 0;
+  transition: opacity linear 250ms, transform ease-in-out 400ms;
+}
+
+.large-button:hover::after,
+.large-button:focus::after {
+  opacity: 1;
+  transform: scale(1.5);
+}
+
+/* Navigation & Underline-indicators  -------------------------- */
+
+.logo {
+  margin: 1.5rem clamp(1.5rem, 5vw, 3.5rem);
+}
+
+.primary-header {
+  align-items: center;
+  justify-content: space-between;
+}
+
+.primary-navigation {
+  --underline-gap: 2rem;
+  --gap: clamp(1.8rem, 5vw, 3.4rem);
+  padding: 0;
+  margin: 0;
+  list-style: none;
+
+  /* Fallback incase browser doesn't support Glassmorphism */
+  background-color: rgb(var(--clr-primary) / 0.97);
+}
+
+/* If browser supports Glassmorphism */
+@supports (backdrop-filter: blur(1rem)) {
+  .primary-navigation {
+    /* Glassmorphism */
+    background-color: rgb(var(--clr-white) / 0.04);
+    backdrop-filter: blur(3rem);
+    -webkit-backdrop-filter: blur(3rem);
+  }
+}
+
+.primary-navigation a {
+  text-decoration: none;
+}
+
+.primary-navigation a > span {
+  font-weight: 700;
+  margin-right: 0.5em;
+}
+
+.primary-navigation[data-hidden="false"] {
+  transform: translateX(0);
+}
+
+.mobile-nav-toggle {
+  display: none;
+}
+
+.underline-indicators > * {
+  padding: var(--underline-gap, 1rem) 0;
+  border: none;
+  border-bottom: 0.2rem solid rgb(var(--clr-white) / 0);
+}
+
+.underline-indicators > *:hover,
+.underline-indicators > *:focus {
+  border-bottom: 0.2rem solid rgb(var(--clr-light) / 0.5);
+}
+
+.underline-indicators > .active,
+.underline-indicators > [aria-selected="true"] {
+  border-bottom: 0.2rem solid rgb(var(--clr-white));
+  /* color: rgb(var(--clr-white)); */
+}
+
+.tab-list {
+  --gap: 2.5rem;
+  --underline-gap: 2px;
+}
+
+.tab-list > * {
+  cursor: pointer;
+}
+
+.tab-list > [aria-selected="true"] {
+  color: rgb(var(--clr-white));
+}
+
+.dot-indicators > * {
+  background-color: rgb(var(--clr-white) / 0.1744);
+  border: none;
+  border-radius: 100%;
+  cursor: pointer;
+  aspect-ratio: 1;
+  padding: 0.4em;
+}
+
+.dot-indicators > *:hover,
+.dot-indicators > *:focus {
+  background-color: rgb(var(--clr-white) / 0.5);
+}
+
+.dot-indicators > [aria-selected="true"] {
+  background-color: rgb(var(--clr-white));
+}
+
+.dot-button > * {
+  border-radius: 100%;
+  cursor: pointer;
+  aspect-ratio: 1;
+  padding: 0 1.25em;
+  border: 1px solid rgb(var(--clr-white) / 0.25);
+}
+
+.dot-button > *:hover,
+.dot-button > *:focus {
+  border: 1px solid rgb(var(--clr-white));
+}
+
+.dot-button > [aria-selected="true"] {
+  border: 1px solid rgb(var(--clr-white));
+  background-color: rgb(var(--clr-white));
+  color: rgb(var(--clr-primary));
+}
+
+/* Media queries Ajustments */
+
+@media (max-width: 35em) {
+  .mobile-nav-toggle {
+    display: block;
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+    z-index: 1200;
+
+    background-image: url(../assets/shared/icon-hamburger.svg);
+    width: 1.5rem;
+    aspect-ratio: 1;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .mobile-nav-toggle[aria-expanded="true"] {
+    background-image: url(../assets/shared/icon-close.svg);
+  }
+
+  .mobile-nav-toggle:focus-visible {
+    outline: 1px solid white;
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+
+  .primary-navigation {
+    --underline-gap: 0.5rem;
+    position: fixed;
+    /* width: 65%;
+    height: 100%;
+    right: 0;
+    top: 0; */
+    /* Shorthand */
+    inset: 0 0 0 30%;
+
+    z-index: 1000;
+    padding: min(15rem, 12vh) 2rem;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform ease-in-out 500ms;
+  }
+
+  /* Higher specificity than the .underline-indicators below */
+  .primary-navigation.underline-indicators > .active,
+  .primary-navigation.underline-indicators > [aria-selected="true"] {
+    border: none;
+  }
+}
+
+@media (min-width: 35em) {
+  .primary-navigation {
+    padding-inline: clamp(3rem, 7vw, 7rem);
+  }
+}
+
+@media (min-width: 35em) and (max-width: 52.999em) {
+  .primary-navigation a > span {
+    display: none;
+  }
+}
+
+@media (min-width: 53em) {
+  .primary-header::after {
+    content: "";
+    display: block;
+    position: relative;
+    height: 1px;
+    width: 100%;
+    background-color: rgb(var(--clr-white) / 0.25);
+    order: 2;
+    transform: translateX(3rem);
+    /* margin-right: -2.5rem; */
+  }
+
+  nav {
+    order: 3;
+  }
+
+  .primary-navigation {
+    margin-block: 2.5rem;
+  }
+
+  .dot-indicators > * {
+    padding: 0.5em;
+  }
+}
+
+/* ------------------------------------------------------- */
+/* Page Specific                                           */
+/* ------------------------------------------------------- */
+
+body {
+  background-size: cover;
+  background-position: bottom center;
+}
+
+/* Home Page */
+
+.home {
+  background-image: url(../assets/home/background-home-mobile.jpg);
+}
+
+@media (min-width: 35em) {
+  .home {
+    background-position: bottom center;
+    background-image: url(../assets/home/background-home-tablet.jpg);
+  }
+}
+
+@media (min-width: 53em) {
+  .home {
+    background-image: url(../assets/home/background-home-desktop.jpg);
+  }
+}
+
+/* Destination page */
+
+.destination {
+  background-image: url(../assets/destination/background-destination-mobile.jpg);
+  background-position: top center;
+}
+
+@media (min-width: 35em) {
+  .destination {
+    background-image: url(../assets/destination/background-destination-tablet.jpg);
+  }
+}
+
+@media (min-width: 53em) {
+  .destination {
+    background-image: url(../assets/destination/background-destination-desktop.jpg);
+  }
+}
+
+/* Crew page */
+
+.crew {
+  background-image: url(../assets/crew/background-crew-mobile.jpg);
+  background-position: center center;
+}
+
+@media (min-width: 35em) {
+  .crew {
+    background-image: url(../assets/crew/background-crew-tablet.jpg);
+  }
+}
+
+@media (min-width: 53em) {
+  .crew {
+    background-image: url(../assets/crew/background-crew-desktop.jpg);
+  }
+}
+
+/* Technology page */
+
+.technology {
+  background-image: url(../assets/technology/background-technology-mobile.jpg);
+  background-position: center center;
+}
+
+@media (min-width: 35em) {
+  .technology {
+    background-image: url(../assets/technology/background-technology-tablet.jpg);
+  }
+}
+
+@media (min-width: 53em) {
+  .technology {
+    background-image: url(../assets/technology/background-technology-desktop.jpg);
+  }
+}
+
+/* ------------------------------------------------------- */
+/* Layouts                                                 */
+/* ------------------------------------------------------- */
+
+.grid-container {
+  text-align: center;
+  display: grid;
+  place-items: center;
+  padding-inline: 1rem;
+  padding-bottom: 4rem;
+}
+.grid-container p {
+  max-width: 50ch;
+}
+
+.grid-container .p--max-width {
+  max-width: 100%;
+}
+
+/* Home layout */
+
+.grid-container--home {
+  padding-bottom: 0;
+}
+
+/* Destination layout */
+
+.grid-container--destination {
+  --flow-space: 2rem;
+
+  grid-template-areas:
+    "title"
+    "image"
+    "tabs"
+    "content";
+}
+
+.grid-container--destination > picture {
+  grid-area: image;
+  max-width: 60%;
+}
+.grid-container--destination > .tab-list {
+  grid-area: tabs;
+}
+.grid-container--destination > .destination-info {
+  grid-area: content;
+}
+
+.destination-meta {
+  --gap: 1.5rem;
+  font-size: 1.75rem;
+  flex-direction: column;
+  align-items: center;
+  border-top: 1px solid rgb(var(--clr-light) / 0.25);
+  padding-top: 2.5rem;
+  margin-top: 2.5rem;
+}
+
+.destination-meta > * > *:first-child {
+  margin-bottom: 0.5em;
+}
+
+/* Crew layout */
+
+.grid-container--crew {
+  --flow-space: 1.5rem;
+
+  grid-template-areas:
+    "title"
+    "image"
+    "dots"
+    "content";
+}
+
+.grid-container--crew .numbered-title {
+  grid-area: title;
+}
+
+.crew-image--container {
+  grid-area: image;
+  max-width: 90%;
+  border-bottom: 1px solid rgb(var(--clr-white) / 0.25);
+}
+
+.crew-image--container > img {
+  max-width: 55%;
+  margin-inline: auto;
+  margin-top: -2px;
+}
+
+.grid-container--crew > .dot-indicators {
+  grid-area: dots;
+}
+
+.grid-container--crew > .crew-info {
+  grid-area: content;
+}
+
+.crew-info h2 {
+  color: rgb(var(--clr-white) / 0.5);
+}
+
+.crew-info > *:not(:first-child) {
+  margin-top: 1rem;
+}
+
+/* Technology layout */
+/* Grid-colum: span 2 for last page's image */
+
+.grid-container--technology {
+  --flow-space: 2rem;
+  padding-inline: 0;
+  grid-template-areas:
+    "title"
+    "image"
+    "dots"
+    "content";
+}
+
+.grid-container--technology .numbered-title {
+  grid-area: title;
+}
+
+.technology-image--container {
+  grid-area: image;
+  max-width: 100%;
+  height: 100%;
+  padding-block: 1rem;
+}
+
+.technology-image--container > img {
+  object-fit: cover;
+  height: 100%;
+}
+
+.grid-container--technology > .dot-button {
+  grid-area: dots;
+}
+
+.grid-container--technology > .technology-info {
+  grid-area: content;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 35em) {
+  /* Destination page layout adjustments */
+  .grid-container--destination {
+    margin-top: 2rem;
+  }
+
+  .grid-container--destination > .numbered-title {
+    justify-self: start;
+  }
+
+  .destination-meta {
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  /* Crew page layout adjustments */
+  .grid-container--crew {
+    --flow-space: 3.5rem;
+    margin-top: 3rem;
+    padding-bottom: 0;
+
+    grid-template-areas:
+      "title"
+      "content"
+      "dots"
+      "image";
+  }
+
+  .grid-container--crew > .numbered-title {
+    justify-self: start;
+  }
+
+  /* Keeping the border incase of very large screen sizes */
+  /* So the user wont just see a picture of a floating half person */
+  /* .crew-image--container {
+    border: 0;
+  } */
+
+  /* Technology page layout adjustments */
+  .grid-container--technology {
+    --flow-space: 2rem;
+    margin-top: 2.5rem;
+  }
+
+  .grid-container--technology .technology-image--container {
+    margin-top: 1.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .grid-container--technology .numbered-title {
+    justify-self: left;
+    padding-bottom: 1rem;
+  }
+
+  .grid-container--technology .technology-info {
+    --flow-space: 1.5rem;
+  }
+}
+
+@media (min-width: 53em) {
+  .grid-container {
+    text-align: left;
+    grid-template-columns: minmax(1rem, 1fr) repeat(2, minmax(0, 40rem)) minmax(1rem, 1fr);
+    column-gap: var(--container-gap, 2rem);
+  }
+
+  /* Only works when wanting to use 2 grid colums in the middle as above*/
+  .grid-container > *:first-child {
+    grid-column: 2;
+  }
+
+  .grid-container > *:last-child {
+    grid-column: 3;
+  }
+
+  /* Homepage layout adjustments */
+  .grid-container--home {
+    padding-bottom: max(6rem, 18vh);
+    align-items: end;
+  }
+
+  /* title image tabs content */
+  /* Destination page layout adjustments */
+  .grid-container--destination {
+    justify-items: start;
+    align-content: start;
+    grid-template-areas:
+      ". title title ."
+      ". image tabs ."
+      ". image content .";
+  }
+
+  .destination-meta {
+    --gap: max(4rem, 8vw);
+    justify-content: flex-start;
+  }
+
+  .grid-container--destination > picture {
+    justify-self: center;
+    max-width: 80%;
+  }
+
+  /* Crew page layout adjustments */
+  .grid-container--crew {
+    justify-items: start;
+    /* align-content: start; */
+    margin-top: 0;
+    --flow-space: 1rem;
+
+    grid-template-areas:
+      ". title image ."
+      ". content image ."
+      ". dots image .";
+  }
+
+  .grid-container--crew .numbered-title {
+    align-self: start;
+  }
+
+  .grid-container--crew > .dot-indicators {
+    align-self: start;
+  }
+
+  .crew-image--container {
+    align-self: end;
+    justify-self: right;
+    margin-top: 0;
+    border: none;
+    max-width: 100%;
+    text-align: center;
+  }
+  .crew-image--container > img {
+    margin-inline: 0;
+    margin-bottom: -5px;
+    display: inline-block;
+    max-width: 85%;
+  }
+
+  /* Technology page layout adjustments */
+  .technology-image--container[hidden] {
+    display: block;
+  }
+
+  .technology-image--container:not([hidden]) {
+    display: none;
+  }
+
+  .grid-container--technology {
+    align-content: start;
+    margin-top: 0;
+    padding-bottom: 0;
+    --flow-space: 1rem;
+
+    grid-template-columns: minmax(1rem, 5%) minmax(0, 6rem) minmax(0, 40rem) minmax(1rem, 5%);
+    column-gap: var(--container-gap, 1rem);
+
+    grid-template-areas:
+      ". title title  ."
+      ". dots content image "
+      ". dots content image ";
+  }
+
+  .grid-container--technology .numbered-title {
+    grid-column-end: span 2;
+  }
+
+  .grid-container--technology .technology-info {
+    justify-self: start;
+  }
+
+  .grid-container--technology .technology-image--container {
+    padding: 0;
+    margin: 0;
+    grid-column: span 2;
+    justify-self: end;
+    align-self: start;
+  }
+
+  .grid-container--technology > .dot-button {
+    flex-direction: column;
+    justify-self: start;
+  }
+
+  .technology-image--container {
+    padding-block: 0;
+    max-width: 90%;
+    height: auto;
+  }
+
+  .technology-image--container > img {
+    object-fit: revert;
+    height: auto;
+  }
+}
